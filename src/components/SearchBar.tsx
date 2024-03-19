@@ -3,15 +3,17 @@
 import React, { useRef, useState, useTransition } from 'react'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
-import { Search } from 'lucide-react'
+import { Loader2, Search } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 export const SearchBar = () => {
     const inputRef = useRef<HTMLInputElement>(null)
-    const [isSearching, startTransition] = useTransition()
-    const router = useRouter()
-    const [query, setQuery] = useState<string>('')
 
+    const [isSearching, startTransition] = useTransition()
+
+    const router = useRouter()
+
+    const [query, setQuery] = useState<string>('')
 
     const search = () => {
         startTransition(() => {
@@ -26,6 +28,7 @@ export const SearchBar = () => {
                     className='absolute inset-0 h-full'
                     value={query}
                     onChange={({ target }) => setQuery(target.value)}
+                    disabled={isSearching}
                     ref={inputRef}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {
@@ -36,8 +39,13 @@ export const SearchBar = () => {
                         }
                     }}
                 />
-                <Button className='absolute right-0 h-full inset-y-0 rounded-l-none' size='sm' onClick={search}>
-                    <Search className='h-6 w-6' />
+                <Button
+                    className='absolute right-0 h-full inset-y-0 rounded-l-none'
+                    size='sm'
+                    onClick={search}
+                    disabled={isSearching}
+                >
+                    {isSearching ? <Loader2 className='h-6 w-6 animate-spin' /> : <Search className='h-6 w-6' />}
                 </Button>
             </div>
         </main>
