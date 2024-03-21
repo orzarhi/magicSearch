@@ -1,3 +1,9 @@
 {
-	"cSpell.words": ["neondatabase"]
+	"cSpell.words": [
+		"neondatabase",
+		"tsquery",
+		"tsvector",
+		"upstash",
+		"vectorize"
+	]
 }

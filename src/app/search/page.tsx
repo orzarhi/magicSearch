@@ -17,11 +17,12 @@ export default async function page({ searchParams }: PageProps) {
         return redirect('/')
     }
 
-    // let products = await db.select().from(productsTable).where(
-    //     sql`to_tsvector(name) @@ plainto_tsquery(${query})`
-    // )
+    let products = await db.select().from(productsTable).where(
+        sql`to_tsvector('simple',lower(${productsTable.name} || ' ' ||
+            ${productsTable.description})) @@ to_tsquery('simple',lower(${query.trim().split(' ').join(' & ')}))`
+    ).limit(3)
 
     return (
-        <div>page</div>
+        <pre>{JSON.stringify(products, null, 2)}</pre>
     )
 }
